@@ -110,73 +110,7 @@ void control::turnOffLights(const std::string& id) {
 
 // Method to fetch and extract rooms data
 std::map<std::string, std::string> control::fetchRooms() {
-    CURL* curl = curl_easy_init();
-    std::string response;
     std::map<std::string, std::string> rooms;
-
-    if (curl) {
-        std::string url = baseUrl + "/resource/bridge_home";  // Endpoint to fetch bridge home data
-        std::cout << "DEBUG: Fetching bridge home data from URL: " << url << std::endl;
-
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, 
-            +[](void* ptr, size_t size, size_t nmemb, void* userdata) -> size_t {
-                ((std::string*)userdata)->append((char*)ptr, size * nmemb);
-                return size * nmemb;
-            });
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-
-        CURLcode res = curl_easy_perform(curl);
-        if (res != CURLE_OK) {
-            std::cerr << "ERROR: CURL Error: " << curl_easy_strerror(res) << std::endl;
-        } else {
-            std::cout << "DEBUG: Response received: " << response << std::endl;
-
-            try {
-                // Parse the JSON response
-                json json_response = json::parse(response);
-                std::cout << "DEBUG: Parsed JSON successfully." << std::endl;
-
-                // Check for errors in the response
-                if (json_response.contains("errors") && !json_response["errors"].empty()) {
-                    std::cerr << "ERROR: API returned errors: " << json_response["errors"] << std::endl;
-                } else {
-                    // Extract the data array
-                    if (json_response.contains("data")) {
-                        const auto& data = json_response["data"];
-
-                        // Iterate through the data array and extract room information
-                        for (const auto& item : data) {
-                            // Extract the ID of the bridge home and associated children (rooms)
-                            std::string home_id = item["id"];
-                            std::cout << "DEBUG: Home ID: " << home_id << std::endl;
-
-                            // Iterate over children (which represent the rooms)
-                            const auto& children = item["children"];
-                            for (const auto& child : children) {
-                                std::string room_id = child["rid"];
-                                std::string room_type = child["rtype"];
-                                std::cout << "DEBUG: Child ID: " << room_id << ", Type: " << room_type << std::endl;
-
-                                // Assuming that rooms are of type 'room', store them in the map
-                                if (room_type == "room") {
-                                    rooms[room_id] = "Room ID: " + room_id;  // Map room ID to a string description
-                                }
-                            }
-                        }
-                    } else {
-                        std::cerr << "ERROR: No 'data' field found in the API response." << std::endl;
-                    }
-                }
-            } catch (const std::exception& e) {
-                std::cerr << "ERROR: Failed to parse JSON: " << e.what() << std::endl;
-            }
-        }
-
-        curl_easy_cleanup(curl);
-    } else {
-        std::cerr << "ERROR: Failed to initialize CURL for fetching bridge home data." << std::endl;
-    }
 
     return rooms;
 }
