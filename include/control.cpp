@@ -31,7 +31,6 @@ control::~control() {
     }
 }
 
-// Callback function to capture response data
 size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* userData) {
     size_t totalSize = size * nmemb;
     userData->append((char*)contents, totalSize);
