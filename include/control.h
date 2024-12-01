@@ -12,20 +12,22 @@ using json = nlohmann::json;
 class control
 {
 private:
-    const std::string HUE_BRIDGE_IP = "192.168.28.26";                            // Replace with your Hue Bridge IP
-    std::string ACCESS_TOKEN; // Replace with your access token
-    std::string baseUrl; // Initialize this in the constructor
+    std::string hueBridgeIp;
+    std::string accessToken;
+    std::string baseUrl;
+    std::map<std::string, std::string> roomsMap;
     CURL *curl;
-
 public:
-    control();  // Constructor declaration
+    control(std::string hueBridgeIp, std::string accessToken);
     ~control(); // Destructor declaration
 
-    CURLcode getBridge();
-    void turnOnLights(const std::string& id);
+    void turnOnLights(const std::string& id, int brightness);
     void turnOffLights(const std::string& id);
 
-    std::map<std::string, std::string> fetchRooms(); // New method to fetch rooms
+    void turnOnGroup(const std::string& id, int brightness);
+    void turnOffGroup(const std::string& id);
+
+    void getRooms();
 };
 
 #endif // CONTROL_H
