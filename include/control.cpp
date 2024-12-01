@@ -17,6 +17,7 @@ control::control(std::string hueBridgeIp, std::string accessToken) : hueBridgeIp
     } else {
         std::cout << "CURL initialized successfully." << std::endl;
     }
+    this->getRooms();
 }
 
 control::~control() {
@@ -26,10 +27,18 @@ control::~control() {
     }
 }
 
+std::string control::getDevice(const std::string& id) {
+    auto it = roomsMap.find(id);
+    if (it != roomsMap.end()) {
+        return it->second;
+    }
+    return "";
+}
+
 void control::turnOnLights(const std::string& id, int brightness) {
     std::string payload = "{\"on\": true, \"dimming\": {\"brightness\": " + std::to_string(brightness) + "}}";
     CURLcode res;
-    std::string url = baseUrl + "/resource/light/" + id; // Ensure the correct URL format
+    std::string url = baseUrl + "/resource/light/" + this->getDevice(id); // Ensure the correct URL format
 
     std::cout << "DEBUG: Turning on light with ID: " << id << std::endl;
     std::cout << "DEBUG: Constructed URL: " << url << std::endl;
@@ -58,7 +67,7 @@ void control::turnOnLights(const std::string& id, int brightness) {
 void control::turnOffLights(const std::string& id) {
     std::string payload = "{\"on\": false}";
     CURLcode res;
-    std::string url = baseUrl + "/resource/light/" + id;
+    std::string url = baseUrl + "/resource/light/" + this->getDevice(id);
 
     std::cout << "DEBUG: Turning on light with ID: " << id << std::endl;
     std::cout << "DEBUG: Constructed URL: " << url << std::endl;
@@ -86,7 +95,7 @@ void control::turnOffLights(const std::string& id) {
 void control::turnOnGroup(const std::string& id, int brightness) {
     std::string payload = "{\"on\": {\"on\": true}, \"dimming\": {\"brightness\": " + std::to_string(brightness) + "}}";
     CURLcode res;
-    std::string url = baseUrl + "/resource/grouped_light/" + id; // Ensure the correct URL format
+    std::string url = baseUrl + "/resource/grouped_light/" + this->getDevice(id); // Ensure the correct URL format
 
     std::cout << "DEBUG: Turning on light with ID: " << id << std::endl;
     std::cout << "DEBUG: Constructed URL: " << url << std::endl;
@@ -114,7 +123,7 @@ void control::turnOnGroup(const std::string& id, int brightness) {
 void control::turnOffGroup(const std::string& id) {
     std::string payload = "{\"on\": {\"on\": false}}";
     CURLcode res;
-    std::string url = baseUrl + "/resource/grouped_light/" + id;
+    std::string url = baseUrl + "/resource/grouped_light/" + this->getDevice(id);
 
     std::cout << "DEBUG: Turning off light group with ID: " << id << std::endl;
     std::cout << "DEBUG: Constructed URL: " << url << std::endl;

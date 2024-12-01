@@ -19,7 +19,9 @@ private:
     CURL *curl;
 public:
     control(std::string hueBridgeIp, std::string accessToken);
-    ~control(); // Destructor declaration
+    ~control();
+
+    std::string getDevice(const std::string& id);
 
     void turnOnLights(const std::string& id, int brightness);
     void turnOffLights(const std::string& id);
