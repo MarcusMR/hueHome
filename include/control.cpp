@@ -180,7 +180,7 @@ void control::getRooms() {
     if (res != CURLE_OK) {
         std::cerr << "Request failed: " << curl_easy_strerror(res) << std::endl;
     } else {
-        std::cout << "Response: " << response << std::endl;
+        std::cout << "Succssfuly: "<< std::endl;
     }
 
     json rooms;

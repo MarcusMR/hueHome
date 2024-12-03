@@ -1,0 +1,24 @@
+{
+    "schedule": {
+        "07:00": {
+            "light_id": "gang",
+            "action": {
+                "on": true,
+                "brightness": 100
+            }
+        },
+        "22:00": {
+            "light_id": "gang",
+            "action": {
+                "on": false
+            }
+        },
+        "21:21": {
+            "light_id": "gang",
+            "action": {
+                "on": true,
+                "brightness": 50
+            }
+        }
+    }
+}
