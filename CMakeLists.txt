@@ -4,11 +4,13 @@ project(hueHome)
 
 set(SOURCES
     src/hueHome.cpp
-    include/control.cpp
+    src/control.cpp
+    src/schedule.cpp
 )
 
 set(INCLUDES
     include/control.h
+    include/schedule.h
 )
 
 find_package(CURL REQUIRED)

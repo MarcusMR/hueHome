@@ -1,11 +1,9 @@
 #include <control.h>
+#include <schedule.h>
 #include <iostream>
 #include <curl/curl.h>
 #include <json.hpp>
 #include <unistd.h>
-#include <fstream>
-#include <ctime>
-#include <sstream>
 #include <thread>
 
 using json = nlohmann::json;
@@ -49,62 +47,6 @@ void getBridge(json &bridges)
     bridges = json::parse(response);
 }
 
-void schedule(control &bridge)
-{
-    json scheduleJson;
-    std::ifstream scheduleStringJson("/home/marcus/rapos/hueHome/configs/schedule.json");
-    if (scheduleStringJson.is_open())
-    {
-        scheduleStringJson >> scheduleJson;
-    }
-    else
-    {
-        std::cerr << "file did not open" << std::endl;
-    }
-    scheduleStringJson.close();
-
-    while (true)
-    {
-        std::time_t now = std::time(nullptr);
-        std::tm *localtime = std::localtime(&now);
-
-        std::ostringstream oss;
-        oss << std::setw(2) << std::setfill('0') << localtime->tm_hour
-            << ":" << std::setw(2) << std::setfill('0') << localtime->tm_min;
-
-        std::string time = oss.str();
-
-        time = "21:21";
-
-        std::cout << scheduleJson["schedule"][time] << std::endl;
-
-        bool s = scheduleJson["schedule"].contains(time);
-
-        std::cout << std::boolalpha << s << std::endl;
-
-        if (s)
-        {
-            json event = scheduleJson["schedule"][time];
-            std::string lightID = event["light_id"];
-            bool on = event["action"]["on"];
-            int brightness = event["action"].value("brightness", 100);
-
-            std::cout << lightID << std::endl;
-
-            if (on)
-            {
-                bridge.turnOnGroup(lightID, brightness);
-            }
-            else
-            {
-                bridge.turnOffGroup(lightID);
-            }
-        }
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        std::cout << "checking: " << time << std::endl;
-    }
-}
-
 int main()
 {
     const char *token = std::getenv("ACCESS_TOKEN");
@@ -118,7 +60,11 @@ int main()
 
     control bridge("192.168.28.26", token);
 
-    schedule(bridge);
+    schedule s(bridge, "/home/marcus/rapos/hueHome/configs/schedule.json");
+
+    s.scheduleRunning();
+
+    // bridge.turnOnGroup("Gang", 100);
 
     return 0;
 }

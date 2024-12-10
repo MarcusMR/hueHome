@@ -30,81 +30,24 @@ control::~control() {
 std::string control::getDevice(const std::string& id) {
     auto it = roomsMap.find(id);
     if (it != roomsMap.end()) {
+        std::cout << "DEBUG: Found id " << id << " -> " << it->second << std::endl;
         return it->second;
     }
+    std::cerr << "ERROR: ID not found in roomsMap: " << id << std::endl;
     return "";
-}
-
-void control::turnOnLights(const std::string& id, int brightness) {
-    std::string payload = "{\"on\": true, \"dimming\": {\"brightness\": " + std::to_string(brightness) + "}}";
-    CURLcode res;
-    std::string url = baseUrl + "/resource/light/" + this->getDevice(id); // Ensure the correct URL format
-
-    std::cout << "DEBUG: Turning on light with ID: " << id << std::endl;
-    std::cout << "DEBUG: Constructed URL: " << url << std::endl;
-    std::cout << "DEBUG: Payload: " << payload << std::endl;
-
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PUT");
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
-    
-    struct curl_slist* headers = nullptr;
-    headers = curl_slist_append(headers, ("hue-application-key: " + accessToken).c_str());
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-
-    res = curl_easy_perform(curl);
-    if (res != CURLE_OK) {
-        std::cerr << "ERROR: Error turning on light: " << curl_easy_strerror(res) << std::endl;
-    } else {
-        std::cout << "DEBUG: Light turned on successfully with brightness " << brightness << "%" << std::endl;
-    }
-}
-
-
-void control::turnOffLights(const std::string& id) {
-    std::string payload = "{\"on\": false}";
-    CURLcode res;
-    std::string url = baseUrl + "/resource/light/" + this->getDevice(id);
-
-    std::cout << "DEBUG: Turning on light with ID: " << id << std::endl;
-    std::cout << "DEBUG: Constructed URL: " << url << std::endl;
-    std::cout << "DEBUG: Payload: " << payload << std::endl;
-
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PUT");
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
-    
-    struct curl_slist* headers = nullptr;
-    headers = curl_slist_append(headers, ("hue-application-key: " + accessToken).c_str());
-    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
-
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
-
-    res = curl_easy_perform(curl);
-    if (res != CURLE_OK) {
-        std::cerr << "ERROR: Error turning off light: " << curl_easy_strerror(res) << std::endl;
-    } else {
-        std::cout << "DEBUG: Light turned off successfully" << std::endl;
-    }
 }
 
 void control::turnOnGroup(const std::string& id, int brightness) {
     std::string payload = "{\"on\": {\"on\": true}, \"dimming\": {\"brightness\": " + std::to_string(brightness) + "}}";
     CURLcode res;
-    std::string url = baseUrl + "/resource/grouped_light/" + this->getDevice(id); // Ensure the correct URL format
+    std::string url = baseUrl + "/resource/grouped_light/" + this->getDevice(id);
 
-    std::cout << "DEBUG: Turning on light with ID: " << id << std::endl;
-    std::cout << "DEBUG: Constructed URL: " << url << std::endl;
-    std::cout << "DEBUG: Payload: " << payload << std::endl;
+    curl_easy_reset(curl);
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PUT");
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, payload.c_str());
-    
+
     struct curl_slist* headers = nullptr;
     headers = curl_slist_append(headers, ("hue-application-key: " + accessToken).c_str());
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
@@ -118,7 +61,10 @@ void control::turnOnGroup(const std::string& id, int brightness) {
     } else {
         std::cout << "DEBUG: Light turned on successfully with brightness " << brightness << "%" << std::endl;
     }
+
+    curl_slist_free_all(headers);
 }
+
 
 void control::turnOffGroup(const std::string& id) {
     std::string payload = "{\"on\": {\"on\": false}}";
@@ -131,6 +77,8 @@ void control::turnOffGroup(const std::string& id) {
 
     // Set up a string to capture the response
     std::string responseData;
+
+    curl_easy_reset(curl);
 
     // Set up CURL options
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
@@ -156,13 +104,15 @@ void control::turnOffGroup(const std::string& id) {
         std::cerr << "ERROR: Error turning off light group: " << curl_easy_strerror(res) << std::endl;
     } else {
         std::cout << "DEBUG: Light group turned off successfully" << std::endl;
-        std::cout << "DEBUG: Response Data: " << responseData << std::endl; // Print the response
+        std::cout << "DEBUG: Response Data: " << responseData << std::endl;
     }
 }
 
 void control::getRooms() {
     std::string url = "https://" + hueBridgeIp + "/clip/v2/resource/room";
     std::string response;
+
+    curl_easy_reset(curl);
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "GET");
@@ -179,17 +129,24 @@ void control::getRooms() {
     CURLcode res = curl_easy_perform(curl);
     if (res != CURLE_OK) {
         std::cerr << "Request failed: " << curl_easy_strerror(res) << std::endl;
-    } else {
-        std::cout << "Succssfuly: "<< std::endl;
+        curl_slist_free_all(headers);
+        return; // Stop videre eksekvering
     }
 
-    json rooms;
-    rooms = json::parse(response);
-    for (const auto& room : rooms["data"]){
-        roomsMap[room["metadata"]["name"]] = room["services"][0]["rid"];
-    }
+    curl_slist_free_all(headers);
 
-    for (const auto& room : roomsMap) {
-        std::cout << "Room: " << room.first << ", Service ID: " << room.second << std::endl;
+    std::cout << "DEBUG: Response data: " << response << std::endl;
+
+    try {
+        json rooms = json::parse(response);
+        for (const auto& room : rooms["data"]) {
+            roomsMap[room["metadata"]["name"]] = room["services"][0]["rid"];
+        }
+
+        for (const auto& room : roomsMap) {
+            std::cout << "Room: " << room.first << ", Service ID: " << room.second << std::endl;
+        }
+    } catch (const json::exception& e) {
+        std::cerr << "JSON parsing error: " << e.what() << std::endl;
     }
 }

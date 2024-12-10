@@ -1,0 +1,274 @@
+{
+    "errors": [],
+    "data": [
+        {
+            "id": "017b40f7-f20e-4bdd-9240-263bb053907a",
+            "id_v1": "/groups/6",
+            "children": [
+                {
+                    "rid": "93b64e9f-025d-4d12-b426-601043b67394",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "d6fac435-f3f0-4a1c-a291-32c4771dde73",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "eca3dad6-34fb-4bfd-b839-6029a70cdf37",
+                    "rtype": "device"
+                }
+            ],
+            "services": [
+                {
+                    "rid": "298d2bec-2d07-4d18-aa1c-eb8a2d9906ef",
+                    "rtype": "grouped_light"
+                }
+            ],
+            "metadata": {
+                "name": "Spisestue",
+                "archetype": "dining"
+            },
+            "type": "room"
+        },
+        {
+            "id": "0fcc85c2-f6f4-4433-91ec-3e2c3ce70dd2",
+            "id_v1": "/groups/3",
+            "children": [
+                {
+                    "rid": "41ea459d-6516-4f85-9110-853b98bac2e8",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "54a29278-e83d-4512-b3dd-a7afb8eb3d6c",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "9f85a8a7-dfb6-4d97-a984-77de52bb1899",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "d75269f9-179e-4808-9c88-7d2519bb301b",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "d9901f9d-b7d8-407c-a2c8-fd20f34844c0",
+                    "rtype": "device"
+                }
+            ],
+            "services": [
+                {
+                    "rid": "cbe672a4-ce6b-43af-b653-86d1b93bf7a7",
+                    "rtype": "grouped_light"
+                }
+            ],
+            "metadata": {
+                "name": "Gang",
+                "archetype": "bedroom"
+            },
+            "type": "room"
+        },
+        {
+            "id": "11d51f10-0940-42cd-897f-e7ff0172aa52",
+            "id_v1": "/groups/1",
+            "children": [
+                {
+                    "rid": "ff09bb35-dcb6-4c5d-9283-2ca9502f0c3b",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "5f6249e2-0a13-491e-80e2-4ba8dd75c38f",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "c1c05a15-f4bd-44d0-b67c-152b842e3c9d",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "ef116c30-404c-477c-83ae-b4e1a155e2a0",
+                    "rtype": "device"
+                }
+            ],
+            "services": [
+                {
+                    "rid": "8c62f387-b7ce-4c71-9cf1-cf12e5309775",
+                    "rtype": "grouped_light"
+                }
+            ],
+            "metadata": {
+                "name": "Marcus soveværelse",
+                "archetype": "living_room"
+            },
+            "type": "room"
+        },
+        {
+            "id": "1598d88e-0b38-4cc1-b0a2-c0f3a7e5799a",
+            "id_v1": "/groups/5",
+            "children": [
+                {
+                    "rid": "52ca3239-f311-4885-9ff2-8aa51f9c6741",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "f2ee3432-352d-4f75-b1e3-1622f3f4278b",
+                    "rtype": "device"
+                }
+            ],
+            "services": [
+                {
+                    "rid": "41a9c982-8d74-48b1-84f9-881a39b77932",
+                    "rtype": "grouped_light"
+                }
+            ],
+            "metadata": {
+                "name": "Tøj sko",
+                "archetype": "hallway"
+            },
+            "type": "room"
+        },
+        {
+            "id": "1e8561b2-7434-4508-ac99-70f483bec8f6",
+            "id_v1": "/groups/11",
+            "children": [
+                {
+                    "rid": "3fc82e7b-afc2-4380-9f78-e44c59fe5043",
+                    "rtype": "device"
+                }
+            ],
+            "services": [
+                {
+                    "rid": "58796c71-1491-4505-ac20-ef99cbd911fd",
+                    "rtype": "grouped_light"
+                }
+            ],
+            "metadata": {
+                "name": "Værelse kontor",
+                "archetype": "living_room"
+            },
+            "type": "room"
+        },
+        {
+            "id": "7268884a-a3ec-4afc-a153-59a8189c22c2",
+            "id_v1": "/groups/82",
+            "children": [
+                {
+                    "rid": "87db3e20-7207-40c5-b52d-c58c26b869b0",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "e6378c90-6204-4b8d-8b02-2a0f52464ea8",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "de992fb0-ac7e-46b3-9e3a-638ce909efe2",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "5bcf90f3-ded8-44fa-8ce5-9142893c7cee",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "eeaaecc7-533c-4667-9ca1-fd4ce3f463f2",
+                    "rtype": "device"
+                }
+            ],
+            "services": [
+                {
+                    "rid": "ddc88a8e-57e4-4fe8-9be3-0b6323839e96",
+                    "rtype": "grouped_light"
+                }
+            ],
+            "metadata": {
+                "name": "Terrasse",
+                "archetype": "terrace"
+            },
+            "type": "room"
+        },
+        {
+            "id": "737b7500-af35-4823-8803-4fe494cbfb30",
+            "id_v1": "/groups/84",
+            "children": [
+                {
+                    "rid": "50eae9f5-9e3b-489b-99d6-468f8d97207c",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "a7160736-c2f5-4fd7-8356-5ce7a16a6c32",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "99186a1d-c66d-40a6-8555-705ff02a16ed",
+                    "rtype": "device"
+                }
+            ],
+            "services": [
+                {
+                    "rid": "ca16dfae-0a46-44bf-9f2c-219689427e3b",
+                    "rtype": "grouped_light"
+                }
+            ],
+            "metadata": {
+                "name": "Viktualie",
+                "archetype": "kitchen"
+            },
+            "type": "room"
+        },
+        {
+            "id": "764b44f7-2ec7-4870-8b28-910679c9e186",
+            "id_v1": "/groups/4",
+            "children": [
+                {
+                    "rid": "70409eb9-2abf-498b-b63a-3df0d0b9e93d",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "733c6573-f79b-4519-a297-e41d89c61555",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "9378cc6c-dd91-40cd-a922-d63d3f6e1f8d",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "9cb88459-48fc-40fe-9cc6-42d552ff4c04",
+                    "rtype": "device"
+                }
+            ],
+            "services": [
+                {
+                    "rid": "d40dbbd5-d312-4642-9e35-1df2633f9b05",
+                    "rtype": "grouped_light"
+                }
+            ],
+            "metadata": {
+                "name": "Gang til kontor",
+                "archetype": "hallway"
+            },
+            "type": "room"
+        },
+        {
+            "id": "e1fa5133-36a8-4b52-b44d-1ebb6a1924cf",
+            "id_v1": "/groups/83",
+            "children": [
+                {
+                    "rid": "9448e41d-0df8-4bb4-8194-56519b3f334a",
+                    "rtype": "device"
+                },
+                {
+                    "rid": "daa6f73b-2b26-475f-96ef-8475207940c7",
+                    "rtype": "device"
+                }
+            ],
+            "services": [
+                {
+                    "rid": "9f1b592d-47d3-4097-951b-592046c4f0e4",
+                    "rtype": "grouped_light"
+                }
+            ],
+            "metadata": {
+                "name": "Hoveddør udhæng",
+                "archetype": "other"
+            },
+            "type": "room"
+        }
+    ]
+}

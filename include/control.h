@@ -22,13 +22,8 @@ public:
     ~control();
 
     std::string getDevice(const std::string& id);
-
-    void turnOnLights(const std::string& id, int brightness);
-    void turnOffLights(const std::string& id);
-
     void turnOnGroup(const std::string& id, int brightness);
     void turnOffGroup(const std::string& id);
-
     void getRooms();
 };
 
