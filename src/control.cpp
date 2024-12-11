@@ -135,8 +135,6 @@ void control::getRooms() {
 
     curl_slist_free_all(headers);
 
-    std::cout << "DEBUG: Response data: " << response << std::endl;
-
     try {
         json rooms = json::parse(response);
         for (const auto& room : rooms["data"]) {
