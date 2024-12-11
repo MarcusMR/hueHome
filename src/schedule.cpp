@@ -2,7 +2,7 @@
 
 using json = nlohmann::json;
 
-schedule::schedule(control &bridge, std::string schedulePath) : bridge(bridge), schedulePath(schedulePath)
+schedule::schedule(control &bridge, std::string schedulePath) : bridge(bridge), schedulePath(schedulePath), running(true)
 {
     std::ifstream scheduleStringJson(schedulePath);
     if (scheduleStringJson.is_open())
@@ -27,7 +27,7 @@ void schedule::updateScheduleIfChange()
 
 void schedule::scheduleRunning()
 {
-    while (true)
+    while (running.load(std::memory_order_relaxed))
     {
         auto now = std::chrono::system_clock::now();
         std::time_t now_time = std::chrono::system_clock::to_time_t(now);
@@ -54,7 +54,5 @@ void schedule::scheduleRunning()
                 bridge.turnOffGroup(lightID);
             }
         }
-        std::this_thread::sleep_for(std::chrono::minutes(1));
-        std::cout << "checking: " << time << std::endl;
     }
 }

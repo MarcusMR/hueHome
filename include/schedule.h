@@ -11,6 +11,7 @@
 #include <iomanip>
 #include <sstream>
 #include <thread>
+#include <atomic>
 
 using json = nlohmann::json;
 using namespace std::chrono;
@@ -23,6 +24,8 @@ private:
     json scheduleJson;
     control bridge;
 public:
+    std::atomic<bool> running;
+
     schedule(control &bridge, std::string schedulePath);
     ~schedule();
 
