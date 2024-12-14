@@ -25,6 +25,8 @@ int main()
 
     std::thread scheduleThread(&schedule::scheduleRunning, &scheduleObj);
 
+    bridge.devices();
+
     scheduleThread.join();
 
     return 0;

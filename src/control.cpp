@@ -108,8 +108,39 @@ void control::turnOffGroup(const std::string& id) {
     }
 }
 
+void control::devices() {
+    CURLcode res;
+    std::string url = baseUrl + "/resource/device";
+    std::string response;
+
+    curl_easy_reset(curl);
+
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "GET");
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+
+    struct curl_slist* headers = nullptr;
+    headers = curl_slist_append(headers, ("hue-application-key: " + accessToken).c_str());
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+
+    res = curl_easy_perform(curl);
+    if (res != CURLE_OK) {
+        std::cerr << "Request failed: " << curl_easy_strerror(res) << std::endl;
+        curl_slist_free_all(headers);
+        return; // Stop videre eksekvering
+    }
+
+    std::cout << response << std::endl;
+
+    curl_slist_free_all(headers);
+}
+
 void control::getRooms() {
-    std::string url = "https://" + hueBridgeIp + "/clip/v2/resource/room";
+    std::string url = baseUrl + "/resource/room";
     std::string response;
 
     curl_easy_reset(curl);
